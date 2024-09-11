@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SimpleSAML\Composer\XMLProvider;
 
 use Composer\Composer;
+use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 
@@ -12,9 +13,6 @@ class XMLProviderInstallerPlugin implements PluginInterface
 {
     /** @var \SimpleSAML\Composer\XMLProviderInstaller */
     private XMLProviderInstaller $installer;
-
-    /** @var \Composer\IO\IOInterface */
-    private IOInterface $io;
 
 
     /**
@@ -25,7 +23,6 @@ class XMLProviderInstallerPlugin implements PluginInterface
      */
     public function activate(Composer $composer, IOInterface $io)
     {
-        $this->io = $io;
         $this->installer = new XMLProviderInstaller($io, $composer);
         $composer->getInstallationManager()->addInstaller($this->installer);
     }

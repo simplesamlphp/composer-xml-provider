@@ -19,18 +19,36 @@ class XMLProviderInstaller extends LibraryInstaller
     /**
      * @inheritDoc
      */
-    public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
+    public function ensureBinariesPresence(PackageInterface $package)
     {
-        $result = parent::install($repo, $package);
+        $result = parent::ensureBinariesPresence($package);
 
         $downloadPath = $this->getInstallPath($package);
-        $registry = $downloadPath . '/src/XML/registry.php');
+        $registry = $downloadPath . '/src/XML/element.registry.php';
 
-        if (file_exists($downloadPath . '/src/XML/registry.php') === true) {
-            $target = $this->vendorDir . '/simplesamlphp/composer-xmlprovider/classes/' . sha1($registry) . '.php';
+        if (file_exists($registry) === true) {
+            $classesDir = $this->vendorDir . '/simplesamlphp/composer-xml-provider/classes/';
+            $target = $classesDir . 'element.registry.' . sha1($registry) . '.php';
             link($registry, $target);
-var_dump($registry);
-var_dump($target);
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
+    {
+        $result = parent::uninstall($repo, $package);
+
+        $downloadPath = $this->getInstallPath($package);
+        $registry = $downloadPath . '/src/XML/element.registry.php';
+        if (file_exists($registry) === true) {
+            $classesDir = $this->vendorDir . '/simplesamlphp/composer-xml-provider/classes/';
+            $target = $classesDir . 'element.registry.' . sha1($registry) . '.php';
+            @unlink($target);
         }
 
         return $result;
