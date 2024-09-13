@@ -27,7 +27,7 @@ class XMLProviderInstaller extends LibraryInstaller
         $registry = $downloadPath . '/src/XML/element.registry.php';
 
         if (file_exists($registry) === true) {
-            $classesDir = $this->vendorDir . '/simplesamlphp/composer-xml-provider/classes/';
+            $classesDir = $this->vendorDir . '/simplesamlphp/composer-xmlprovider-installer/classes/';
             $target = $classesDir . 'element.registry.' . sha1($registry) . '.php';
             link($registry, $target);
         }
@@ -46,7 +46,7 @@ class XMLProviderInstaller extends LibraryInstaller
         $downloadPath = $this->getInstallPath($package);
         $registry = $downloadPath . '/src/XML/element.registry.php';
         if (file_exists($registry) === true) {
-            $classesDir = $this->vendorDir . '/simplesamlphp/composer-xml-provider/classes/';
+            $classesDir = $this->vendorDir . '/simplesamlphp/composer-xmlprovider-installer/classes/';
             $target = $classesDir . 'element.registry.' . sha1($registry) . '.php';
             @unlink($target);
         }
