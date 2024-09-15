@@ -9,6 +9,10 @@ use Composer\Package\PackageInterface;
 use Composer\Repository\InstalledRepositoryInterface;
 
 use function in_array;
+use function file_exists;
+use function link;
+use function sha1;
+use function unlink;
 
 class XMLProviderInstaller extends LibraryInstaller
 {
@@ -29,7 +33,9 @@ class XMLProviderInstaller extends LibraryInstaller
         if (file_exists($registry) === true) {
             $classesDir = $this->vendorDir . '/simplesamlphp/composer-xmlprovider-installer/classes/';
             $target = $classesDir . 'element.registry.' . sha1($registry) . '.php';
-            link($registry, $target);
+            if (file_exists($target) === false) {
+                link($registry, $target);
+            }
         }
 
         return $result;
